@@ -31,15 +31,21 @@ class BooksApp extends React.Component {
                 <div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Currently Reading</h2>
-                    <Books books={this.state.books.filter(b => b.shelf === "currentlyReading")} />
+                    <div className="bookshelf-books">
+                      <Books books={this.state.books.filter(b => b.shelf === "currentlyReading")} />
+                    </div>
                   </div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Want to Read</h2>
-                    <Books books={this.state.books.filter(b => b.shelf === "wantToRead")} />
+                    <div className="bookshelf-books">
+                      <Books books={this.state.books.filter(b => b.shelf === "wantToRead")} />
+                    </div>
                   </div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Read</h2>
-                    <Books books={this.state.books.filter(b => b.shelf === "read")} />
+                    <div className="bookshelf-books">
+                      <Books books={this.state.books.filter(b => b.shelf === "read")} />
+                    </div>
                   </div>
                 </div>
               </div>
