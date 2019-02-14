@@ -11,23 +11,39 @@ class SearchBooks extends Component {
     errorSearch: false
   }
 
+  updateBookShelf = (searchBooks) => {
+    const { books } = this.props
+    return searchBooks.map(b => {
+      const book = books.find(book => {
+        return book.id === b.id;
+      });
+
+      if (book !== undefined) {
+        return book;
+      } else {
+        return { ...b, shelf: 'none' };
+      }
+    });
+  }
+
   updateQuery = (query) =>{
     this.setState({ query: query });
-    console.log(query);
 
     if (query) {
       BooksAPI.search(query).then(books => {
-        console.log(books);
         if(books.length > 0){
-          this.setState({ searchBooks: books, errorSearch: false })
+          this.setState({ searchBooks: this.updateBookShelf(books), errorSearch: false })
         } else {
           this.setState({ searchBooks: [], errorSearch: true })
         }
       });
-    } else this.setState({ searchBooks: [], searchErr: false });
+    } else this.setState({ searchBooks: [], errorSearch: false });
   }
 
   render() {
+
+    const { updateBookShelf } = this.props
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -50,7 +66,7 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           {this.state.searchBooks.length > 0 &&
-              <Books books={this.state.searchBooks} />
+              <Books books={this.state.searchBooks} updateBookShelf={updateBookShelf} />
           }
           {this.state.errorSearch && (
             <h1>Not found any books for {this.state.query}. Please try again!</h1>

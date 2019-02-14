@@ -5,13 +5,13 @@ class Books extends Component {
 
   render() {
 
-    const { books } = this.props
+    const { books, updateBookShelf } = this.props
 
     return (
       <ol className="books-grid">
         {books.map(book => (
           <li key={book.id}>
-            <Book book={book} />
+            <Book book={book} updateBookShelf={updateBookShelf} />
           </li>
         ))}
       </ol>
