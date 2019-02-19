@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import imgNotFound from'./icons/image_not_found.png';
 
 class Book extends Component {
 
@@ -12,7 +13,7 @@ class Book extends Component {
     const { book } = this.props
 
     const imgLink = book.imageLinks && book.imageLinks.thumbnail
-      ? book.imageLinks.thumbnail : '';
+      ? book.imageLinks.thumbnail : imgNotFound;
 
     return (
       <div className="book">
