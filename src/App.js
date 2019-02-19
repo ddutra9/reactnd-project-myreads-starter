@@ -4,16 +4,19 @@ import './App.css'
 import SearchBooks from './SearchBooks';
 import Books from './Books';
 import {Route, Link} from 'react-router-dom';
+import Loading from './loading/Loading'
 
 class BooksApp extends React.Component {
   state = {
     books: [],
+    isLoading: true,
   }
 
   componentDidMount(){
     BooksAPI.getAll().then((books) => {
       this.setState({
-        books
+        books: books,
+        isLoading: false,
       })
     })
   }
@@ -35,6 +38,7 @@ class BooksApp extends React.Component {
           )} />
         <Route exact path='/' render={() => (
           <div className="list-books">
+              {this.state.isLoading === true && (<Loading />)} 
               <div className="list-books-title">
                 <h1>MyReads</h1>
               </div>
