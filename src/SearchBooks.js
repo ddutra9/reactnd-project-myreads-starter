@@ -11,9 +11,9 @@ class SearchBooks extends Component {
     errorSearch: false
   }
 
-  updateBookShelf = (searchBooks) => {
+  matchBooks = (searchBooks) => {
     const { books } = this.props
-    return searchBooks.map(b => {
+    const book = searchBooks.map(b => {
       const book = books.find(book => {
         return book.id === b.id;
       });
@@ -24,6 +24,8 @@ class SearchBooks extends Component {
         return { ...b, shelf: 'none' };
       }
     });
+
+    return book;
   }
 
   updateQuery = (query) =>{
@@ -32,7 +34,7 @@ class SearchBooks extends Component {
     if (query) {
       BooksAPI.search(query).then(books => {
         if(books.length > 0){
-          this.setState({ searchBooks: this.updateBookShelf(books), errorSearch: false })
+          this.setState({ searchBooks: this.matchBooks(books), errorSearch: false })
         } else {
           this.setState({ searchBooks: [], errorSearch: true })
         }
@@ -40,10 +42,12 @@ class SearchBooks extends Component {
     } else this.setState({ searchBooks: [], errorSearch: false });
   }
 
+  overUpdateBookShelf = (book, shelf) => {
+    this.props.updateBookShelf(book, shelf)
+    alert('Moved!')
+  }
+
   render() {
-
-    const { updateBookShelf } = this.props
-
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -66,7 +70,7 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           {this.state.searchBooks.length > 0 &&
-              <Books books={this.state.searchBooks} updateBookShelf={updateBookShelf} />
+              <Books books={this.state.searchBooks} updateBookShelf={this.overUpdateBookShelf} />
           }
           {this.state.errorSearch && (
             <h1>Not found any books for {this.state.query}. Please try again!</h1>
