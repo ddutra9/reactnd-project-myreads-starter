@@ -1,7 +1,13 @@
 import React, {Component} from 'react'
 import imgNotFound from'./icons/image_not_found.png';
+import PropTypes from 'prop-types'
 
 class Book extends Component {
+
+  static propTypes = {
+    updateBookShelf: PropTypes.func.isRequired,
+    book: PropTypes.object.isRequired,
+  }
 
   moveBook = event => {
     this.props.updateBookShelf(this.props.book, event.target.value);
